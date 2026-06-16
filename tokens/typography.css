@@ -1,0 +1,48 @@
+/* ===========================================================================
+   TYPOGRAPHY TOKENS — Melissa Tinoco Portfolio
+   Display: Syne (expressive, designed for art/design portfolios)
+   Body:    Manrope (clean, geometric humanist sans)
+   ========================================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  /* --- Families ---------------------------------------------------------
+     Display = Quicksand: rounded geometric sans (matches the certificate
+     wordmark). Friendly, open and elegant at large sizes. */
+  --font-display: 'Quicksand', 'Manrope', system-ui, sans-serif;
+  --font-body:    'Manrope', system-ui, -apple-system, sans-serif;
+  --font-mono:    'JetBrains Mono', ui-monospace, 'SF Mono', monospace;
+
+  /* --- Type scale (fluid where it helps) -------------------------------- */
+  --fs-hero:   clamp(2.5rem, 6vw, 5rem);     /* @kind font */
+  --fs-d1:     clamp(2.5rem, 5.5vw, 4.5rem); /* @kind font */
+  --fs-d2:     clamp(2rem, 4vw, 3rem);       /* @kind font */
+  --fs-h1:     2rem;      /* 32 @kind font */
+  --fs-h2:     1.5rem;    /* 24 @kind font */
+  --fs-h3:     1.25rem;   /* 20 @kind font */
+  --fs-lg:     1.125rem;  /* 18 — lead paragraphs   @kind font */
+  --fs-base:   1rem;      /* 16 @kind font */
+  --fs-sm:     0.875rem;  /* 14 @kind font */
+  --fs-xs:     0.75rem;   /* 12 — labels, eyebrows  @kind font */
+
+  /* --- Weights ---------------------------------------------------------- */
+  --fw-regular:  400;   /* @kind font */
+  --fw-medium:   500;   /* @kind font */
+  --fw-semibold: 600;   /* @kind font */
+  --fw-bold:     700;   /* @kind font */
+  --fw-extra:    800;   /* @kind font */
+
+  /* --- Line height ------------------------------------------------------ */
+  --lh-tight:   1.08;   /* @kind font */
+  --lh-snug:    1.18;   /* @kind font */
+  --lh-normal:  1.5;    /* @kind font */
+  --lh-relaxed: 1.7;    /* @kind font */
+
+  /* --- Letter spacing --------------------------------------------------- */
+  --ls-tight:   -0.005em;  /* big display — gentle, lets round letters breathe   @kind font */
+  --ls-snug:    -0.01em;   /* @kind font */
+  --ls-normal:  0;         /* @kind font */
+  --ls-wide:    0.08em;    /* @kind font */
+  --ls-eyebrow: 0.22em;    /* uppercase eyebrows / labels  @kind font */
+}

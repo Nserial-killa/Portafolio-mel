@@ -1,0 +1,49 @@
+<!-- @dsCard group="Portfolio" viewport="1280x820" name="Portfolio — Página completa" subtitle="Hero, Sobre mí, Proyectos, Certificaciones, Contacto" -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Melissa Tinoco López — Portfolio</title>
+<link rel="stylesheet" href="../../styles.css" />
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--bg-page); }
+
+  /* Scroll-reveal */
+  .mt-reveal { opacity: 0; transform: translateY(28px); transition: opacity var(--dur-reveal) var(--ease-out), transform var(--dur-reveal) var(--ease-out); }
+  .mt-reveal.is-visible { opacity: 1; transform: translateY(0); }
+
+  /* Hero entrance (plays on load, independent of observer) */
+  @keyframes mt-hero-in { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: translateY(0); } }
+  #top .mt-reveal { opacity: 0; animation: mt-hero-in var(--dur-reveal) var(--ease-out) forwards; }
+
+  @media (max-width: 880px) {
+    .mt-about-grid { grid-template-columns: 1fr !important; }
+    .mt-navlinks { display: none !important; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .mt-reveal { opacity: 1 !important; transform: none !important; }
+    #top .mt-reveal { animation: none !important; opacity: 1 !important; }
+  }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script src="icons.jsx" type="text/babel" data-presets="react"></script>
+<script src="data.jsx" type="text/babel" data-presets="react"></script>
+<script src="Nav.jsx" type="text/babel" data-presets="react"></script>
+<script src="Hero.jsx" type="text/babel" data-presets="react"></script>
+<script src="About.jsx" type="text/babel" data-presets="react"></script>
+<script src="Work.jsx" type="text/babel" data-presets="react"></script>
+<script src="Contact.jsx" type="text/babel" data-presets="react"></script>
+<script src="App.jsx" type="text/babel" data-presets="react"></script>
+<script type="text/babel" data-presets="react">
+  ReactDOM.createRoot(document.getElementById('root')).render(<window.PortfolioApp />);
+</script>
+</body>
+</html>

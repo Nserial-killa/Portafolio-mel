@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<!-- @template name="Portfolio personal" description="Portfolio oscuro de una página: hero, sobre mí, proyectos, certificaciones y contacto." -->
+<helmet>
+<script src="./ds-base.js"></script>
+</helmet>
+<div style="background: #000000; color: #c7c7d1; font-family: var(--font-body); min-height: 100vh;">
+
+  <!-- NAVBAR -->
+  <header style="position: sticky; top: 0; z-index: 50; display: flex; align-items: center; justify-content: space-between; padding: 16px var(--section-pad-x); background: rgba(8,8,10,0.78); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); border-bottom: 1px solid var(--border);">
+    <a href="#top" style="font-family: var(--font-display); font-weight: 800; font-size: 20px; color: #ffffff; letter-spacing: -0.02em; text-decoration: none;">Melissa<span style="color: var(--accent);">.</span></a>
+    <nav style="display: flex; align-items: center; gap: 4px;">
+      <a href="#sobre-mi" style="padding: 8px 14px; font-size: 14px; font-weight: 600; color: var(--text-body); border-radius: 999px; text-decoration: none; transition: color 140ms, background 140ms;" style-hover="color: #ffffff; background: rgba(255,255,255,0.06);">Sobre mí</a>
+      <a href="#proyectos" style="padding: 8px 14px; font-size: 14px; font-weight: 600; color: var(--text-body); border-radius: 999px; text-decoration: none; transition: color 140ms, background 140ms;" style-hover="color: #ffffff; background: rgba(255,255,255,0.06);">Proyectos</a>
+      <a href="#certificaciones" style="padding: 8px 14px; font-size: 14px; font-weight: 600; color: var(--text-body); border-radius: 999px; text-decoration: none; transition: color 140ms, background 140ms;" style-hover="color: #ffffff; background: rgba(255,255,255,0.06);">Certificaciones</a>
+      <a href="#contacto" style="padding: 8px 14px; font-size: 14px; font-weight: 600; color: var(--text-body); border-radius: 999px; text-decoration: none; transition: color 140ms, background 140ms;" style-hover="color: #ffffff; background: rgba(255,255,255,0.06);">Contacto</a>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <section id="top" style="position: relative; padding: 120px var(--section-pad-x); overflow: hidden; min-height: 78vh; display: flex; align-items: center; justify-content: center; text-align: center;">
+    <div style="max-width: var(--content-max); margin: 0 auto;">
+      <h1 style="font-family: var(--font-display); font-weight: 800; font-size: var(--fs-hero); line-height: 1.08; letter-spacing: -0.005em; margin: 0; color: #ffffff;"><span style="display: block; font-size: 0.4em; font-weight: 600; color: var(--text-muted); letter-spacing: 0.04em; margin-bottom: 12px;">Diseñadora</span>Meli<span class="mt-green-text">ss</span>a <span class="mt-gradient-text">{{ lastName }}</span></h1>
+    </div>
+  </section>
+
+  <!-- SOBRE MÍ -->
+  <section id="sobre-mi" style="padding: var(--section-pad-y) var(--section-pad-x); background: var(--bg-section);">
+    <div style="max-width: var(--content-max); margin: 0 auto; display: flex; flex-direction: column; align-items: center; text-align: center;">
+      <x-import component-from-global-scope="MelissaTinocoPortfolioDesignSystem_c81f0c.SectionHeading" eyebrow="Sobre mí" eyebrow-color="var(--text-muted)" align="center" title="Diseño para destacar" subtitle="{{ about }}" hint-size="100%,200px"></x-import>
+      <div style="display: flex; flex-wrap: wrap; gap: 8px; margin: 28px 0 32px; justify-content: center;">
+        <sc-for list="{{ skills }}" as="skill" hint-placeholder-count="6">
+          <x-import component-from-global-scope="MelissaTinocoPortfolioDesignSystem_c81f0c.Badge" variant="soft" hint-size="90px,28px">{{ skill }}</x-import>
+        </sc-for>
+      </div>
+      <x-import component-from-global-scope="MelissaTinocoPortfolioDesignSystem_c81f0c.Button" variant="primary" size="lg" href="{{ cvUrl }}" hint-size="220px,56px">Descargar CV (PDF)</x-import>
+    </div>
+  </section>
+
+  <!-- PROYECTOS -->
+  <section id="proyectos" style="padding: var(--section-pad-y) var(--section-pad-x);">
+    <div style="max-width: var(--content-max); margin: 0 auto;">
+      <x-import component-from-global-scope="MelissaTinocoPortfolioDesignSystem_c81f0c.SectionHeading" eyebrow="Proyectos" eyebrow-color="var(--text-muted)" align="center" title="Trabajo seleccionado" subtitle="Una muestra de lo que más disfruto crear." hint-size="100%,200px"></x-import>
+      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; margin-top: 48px;">
+        <sc-for list="{{ projects }}" as="project" hint-placeholder-count="3">
+          <x-import component-from-global-scope="MelissaTinocoPortfolioDesignSystem_c81f0c.ProjectCard" image="{{ project.image }}" title="{{ project.title }}" description="{{ project.description }}" tags="{{ project.tags }}" href="#" hint-size="100%,400px"></x-import>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- CERTIFICACIONES -->
+  <section id="certificaciones" style="padding: var(--section-pad-y) var(--section-pad-x); background: var(--bg-section);">
+    <div style="max-width: var(--content-max); margin: 0 auto;">
+      <x-import component-from-global-scope="MelissaTinocoPortfolioDesignSystem_c81f0c.SectionHeading" eyebrow="Certificaciones" eyebrow-color="var(--text-muted)" align="center" title="Aprendizaje constante" subtitle="Algunos de los logros que respaldan mi trabajo." hint-size="100%,200px"></x-import>
+      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px; margin: 48px auto 0; max-width: 720px;">
+        <sc-for list="{{ certs }}" as="cert" hint-placeholder-count="1">
+          <x-import component-from-global-scope="MelissaTinocoPortfolioDesignSystem_c81f0c.CertCard" image="{{ cert.image }}" title="{{ cert.title }}" issuer="{{ cert.issuer }}" date="{{ cert.date }}" hint-size="100%,420px"></x-import>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACTO -->
+  <section id="contacto" style="padding: var(--section-pad-y) var(--section-pad-x); position: relative; overflow: hidden;">
+    <div style="max-width: 760px; margin: 0 auto; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 24px;">
+      <span style="font-size: 14px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--text-muted);">Contacto</span>
+      <h2 style="font-family: var(--font-display); font-weight: 800; font-size: var(--fs-d1); letter-spacing: -0.03em; line-height: 1.04; color: #ffffff; margin: 0;">¿Creamos algo <span class="mt-gradient-text">juntas?</span></h2>
+      <p style="font-size: 18px; color: var(--text-body); line-height: 1.7; max-width: 520px;">Cuéntame tu idea y la convertimos en algo que destaque.</p>
+      <x-import component-from-global-scope="MelissaTinocoPortfolioDesignSystem_c81f0c.Button" variant="primary" size="lg" href="{{ mailto }}" hint-size="260px,56px">Escríbeme un correo</x-import>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer style="border-top: 1px solid var(--border); background: var(--bg-section);">
+    <div style="max-width: var(--content-max); margin: 0 auto; padding: 56px var(--section-pad-x) 28px; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 40px; align-items: start; justify-items: center; text-align: center;">
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 14px; max-width: 320px;">
+        <span style="font-family: var(--font-display); font-weight: 800; font-size: 24px; color: #ffffff; letter-spacing: -0.02em;">Melissa<span style="color: var(--accent);">.</span></span>
+        <p style="font-size: 14px; line-height: 1.7; color: var(--text-muted); margin: 0;">Diseñadora gráfica & creativa. Convierto ideas en piezas que destacan.</p>
+      </div>
+
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 12px;">
+        <span style="font-size: 12px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-faint);">Navegación</span>
+        <a href="#sobre-mi" style="font-size: 14px; color: var(--text-body); text-decoration: none;" style-hover="color: var(--accent);">Sobre mí</a>
+        <a href="#proyectos" style="font-size: 14px; color: var(--text-body); text-decoration: none;" style-hover="color: var(--accent);">Proyectos</a>
+        <a href="#certificaciones" style="font-size: 14px; color: var(--text-body); text-decoration: none;" style-hover="color: var(--accent);">Certificaciones</a>
+        <a href="#contacto" style="font-size: 14px; color: var(--text-body); text-decoration: none;" style-hover="color: var(--accent);">Contacto</a>
+      </div>
+
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 14px;">
+        <span style="font-size: 12px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-faint);">Sígueme</span>
+        <div style="display: flex; gap: 12px;">
+          <a href="{{ instagram }}" aria-label="Instagram" style="width: 44px; height: 44px; border-radius: 999px; display: inline-flex; align-items: center; justify-content: center; background: var(--surface-card); border: 1px solid var(--border-strong); color: #ffffff; text-decoration: none; transition: all 200ms;" style-hover="border-color: var(--accent); color: var(--accent); transform: translateY(-3px); box-shadow: var(--glow-pink-sm);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r="0.6"></circle></svg></a>
+          <a href="{{ behance }}" aria-label="Behance" style="width: 44px; height: 44px; border-radius: 999px; display: inline-flex; align-items: center; justify-content: center; background: var(--surface-card); border: 1px solid var(--border-strong); color: #ffffff; text-decoration: none; transition: all 200ms;" style-hover="border-color: var(--accent); color: var(--accent); transform: translateY(-3px); box-shadow: var(--glow-pink-sm);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h5a2.5 2.5 0 0 1 0 5H3z"></path><path d="M3 12h5.5a2.5 2.5 0 0 1 0 5H3z"></path><path d="M15 9h5"></path><path d="M14 14.5h7a3.5 3.5 0 0 0-7 0 3.5 3.5 0 0 0 6 2.3"></path></svg></a>
+          <a href="{{ linkedin }}" aria-label="LinkedIn" style="width: 44px; height: 44px; border-radius: 999px; display: inline-flex; align-items: center; justify-content: center; background: var(--surface-card); border: 1px solid var(--border-strong); color: #ffffff; text-decoration: none; transition: all 200ms;" style-hover="border-color: var(--accent); color: var(--accent); transform: translateY(-3px); box-shadow: var(--glow-pink-sm);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v6h-4v-6a2 2 0 0 0-4 0v6h-4v-12h4v2"></path><rect x="2" y="9" width="4" height="11"></rect><circle cx="4" cy="4" r="2"></circle></svg></a>
+        </div>
+        <a href="{{ mailto }}" style="font-family: var(--font-mono); font-size: 13px; color: var(--text-muted); text-decoration: none;" style-hover="color: var(--accent);">{{ email }}</a>
+      </div>
+    </div>
+    <div style="border-top: 1px solid var(--border); padding: 20px var(--section-pad-x); max-width: var(--content-max); margin: 0 auto; text-align: center;">
+      <span style="font-size: 13px; color: var(--text-faint);">© 2026 Melissa Tinoco López · Todos los derechos reservados.</span>
+    </div>
+  </footer>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:900},&quot;firstName&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Melissa&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;lastName&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Tinoco López&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;tagline&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Creo identidades, piezas y experiencias que destacan.&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;email&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;melissa.tinoco@email.com&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;cvUrl&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;#&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;instagram&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;#&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;behance&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;#&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;linkedin&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;#&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  ph(a, b, c) {
+    const svg = "<svg xmlns='http://www.w3.org/2000/svg' width='640' height='440'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='" + a + "'/><stop offset='0.6' stop-color='" + b + "'/><stop offset='1' stop-color='" + c + "'/></linearGradient></defs><rect width='640' height='440' fill='#0e0e12'/><rect width='640' height='440' fill='url(#g)' opacity='0.92'/><circle cx='120' cy='90' r='160' fill='#ffffff' opacity='0.06'/></svg>";
+    return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
+  }
+  renderVals() {
+    const p = this.props || {};
+    return {
+      firstName: p.firstName ?? 'Melissa',
+      lastName: p.lastName ?? 'Tinoco López',
+      tagline: p.tagline ?? 'Creo identidades, piezas y experiencias que destacan. Me mueve lo nuevo, lo diferente y probar cosas que nadie ha intentado.',
+      about: p.about ?? 'Soy una diseñadora muy creativa. Me apasiona lo nuevo y lo diferente, escuchar a quien tengo enfrente y convertir ideas en piezas que llaman la atención.',
+      cvUrl: p.cvUrl ?? '#',
+      email: p.email ?? 'melissa.tinoco@email.com',
+      mailto: 'mailto:' + (p.email ?? 'melissa.tinoco@email.com'),
+      instagram: p.instagram ?? '#',
+      behance: p.behance ?? '#',
+      linkedin: p.linkedin ?? '#',
+      skills: p.skills ?? ['Branding', 'Diseño editorial', 'Social Media', 'UI / UX', 'Tipografía', 'Canva', 'Figma'],
+      certs: p.certs ?? [{ image: '../../assets/cert-canva-100.jpeg', title: '100 diseños en Canva', issuer: 'Canva', date: '2026' }],
+      projects: p.projects ?? [
+        { title: 'Identidad — Café Aurora', description: 'Branding completo: logotipo, paleta y empaques.', tags: ['Branding', 'Packaging'], image: this.ph('#f72585', '#b5179e', '#7209b7') },
+        { title: 'Campaña — Flores de Marzo', description: 'Serie de piezas para redes sociales con dirección de arte vibrante.', tags: ['Social Media'], image: this.ph('#f94c9c', '#f72585', '#d11371') },
+        { title: 'Editorial — Revista Nova', description: 'Diseño y maquetación de una revista digital de 32 páginas.', tags: ['Editorial', 'Layout'], image: this.ph('#7209b7', '#4361ee', '#4cc9f0') },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>

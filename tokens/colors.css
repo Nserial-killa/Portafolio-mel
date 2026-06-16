@@ -1,0 +1,75 @@
+/* ===========================================================================
+   COLOR TOKENS — Melissa Tinoco Portfolio
+   A dark, high-contrast canvas with a vivid magenta-pink signature.
+   ========================================================================= */
+
+:root {
+  /* --- Brand: Pink scale (signature) --------------------------------------
+     --pink-500 (#f72585) is THE brand color — the name, primary actions,
+     focus, glows. The deeper shades come from the same magenta family. */
+  --pink-300: #fb7bb4;   /* hover/lighten on dark, soft accents            */
+  --pink-400: #f94c9c;   /* secondary pink, gradient stop                  */
+  --pink-500: #f72585;   /* PRIMARY BRAND                                  */
+  --pink-600: #d11371;   /* pressed / darker                               */
+  --pink-700: #b5179e;   /* magenta-violet, gradient depth                 */
+
+  /* --- Secondary accents (use sparingly, for gradients & highlights) ----- */
+  --violet-500: #7209b7; /* deep violet, gradient partner to pink          */
+  --cyan-400:  #4cc9f0;  /* cool glow accent, tiny highlights only         */
+  --green-dark:  #0b5e2f; /* dark green (gradient start)                    */
+  --green-light: #5ef58a; /* light green (gradient end)                     */
+
+  /* --- Ink / surfaces (the black canvas) -------------------------------- */
+  --black:      #000000; /* page background — pure black, as requested     */
+  --ink-950:    #08080a; /* near-black sections                            */
+  --ink-900:    #0e0e12; /* base surface                                   */
+  --ink-850:    #141419; /* card surface                                   */
+  --ink-800:    #1c1c23; /* elevated / hover surface                       */
+  --ink-700:    #2a2a33; /* hairline-strong, inputs                        */
+
+  /* --- Neutral text ----------------------------------------------------- */
+  --white:      #ffffff;
+  --gray-100:   #f3f3f6;
+  --gray-300:   #c7c7d1;
+  --gray-400:   #9b9bab;
+  --gray-500:   #6f6f7e;
+  --gray-600:   #4a4a56;
+
+  /* --- Lines & borders -------------------------------------------------- */
+  --line:        rgba(255, 255, 255, 0.08);
+  --line-strong: rgba(255, 255, 255, 0.16);
+  --line-pink:   rgba(247, 37, 133, 0.35);
+
+  /* --- Brand gradients -------------------------------------------------- */
+  --grad-pink:   linear-gradient(135deg, #f72585 0%, #b5179e 100%);   /* @kind color */
+  --grad-vivid:  linear-gradient(120deg, #f72585 0%, #7209b7 60%, #4cc9f0 130%);   /* @kind color */
+  --grad-text:   linear-gradient(100deg, #fb7bb4 0%, #f72585 45%, #b5179e 100%);   /* @kind color */
+  --grad-green:  linear-gradient(135deg, #0b5e2f 0%, #2faa5a 50%, #5ef58a 100%);   /* @kind color */
+  --grad-veil:   linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.85) 100%);   /* @kind color */
+
+  /* =========================================================================
+     SEMANTIC ALIASES — reference these in components & UI
+     ======================================================================= */
+  --bg-page:        var(--black);
+  --bg-section:     var(--black);   /* unified pure black — content floats on it */
+  --surface-base:   var(--ink-900);
+  --surface-card:   var(--ink-850);
+  --surface-raised: var(--ink-800);
+  --surface-input:  var(--ink-800);
+
+  --text-primary:   var(--white);
+  --text-body:      var(--gray-300);
+  --text-muted:     var(--gray-400);
+  --text-faint:     var(--gray-500);
+  --text-onPink:    #ffffff;
+
+  --accent:         var(--pink-500);
+  --accent-hover:   var(--pink-300);
+  --accent-press:   var(--pink-600);
+
+  --border:         var(--line);
+  --border-strong:  var(--line-strong);
+  --border-accent:  var(--line-pink);
+
+  --focus-ring:     var(--pink-500);
+}
