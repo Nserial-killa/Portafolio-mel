@@ -195,6 +195,29 @@
   color: var(--hero-muted);
 }
 
+/* "ss" de Melissa: texto con degradado verde ↔ rosa que se desplaza.
+   Cómo funciona el texto con degradado:
+     1. background pinta el degradado detrás de las letras.
+     2. background-clip: text recorta ese fondo a la forma de las letras.
+     3. color: transparent deja ver el fondo recortado en vez del color.
+   El degradado mide el doble del ancho (background-size: 200%) y empieza y
+   termina en el mismo verde, así que al moverlo con background-position la
+   animación se repite sin saltos. */
+.mt-hero__ss {
+  background: linear-gradient(90deg, #5ef58a 0%, #2faa5a 25%, #f72585 50%, #fb7bb4 75%, #5ef58a 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;   /* prefijo para Safari                    */
+  background-clip: text;
+  color: transparent;
+  animation: mt-hero-ss-flow 4s linear infinite;
+}
+
+/* Mueve el degradado de izquierda a derecha en bucle infinito. */
+@keyframes mt-hero-ss-flow {
+  from { background-position: 0% 50%; }
+  to   { background-position: 200% 50%; }
+}
+
 /* ---------------------------------------------------------------------------
    6. BOTONES
    --------------------------------------------------------------------------- */
@@ -362,5 +385,6 @@
   .mt-hero__in,
   .mt-hero__nav,
   .mt-hero__counter,
-  .mt-hero__title-rule { animation: none; }
+  .mt-hero__title-rule,
+  .mt-hero__ss { animation: none; }
 }

@@ -8,9 +8,13 @@
   // CONTENIDO EDITABLE
   // Cambia estos textos aquí sin tocar el resto del componente.
   // ---------------------------------------------------------------------------
-  const HERO_TITLE = ['Melissa', 'Tinoco López']; // cada elemento = una línea del título
-  const HERO_TEXT =
-    'Soy una diseñadora muy creativa. Me apasiona lo nuevo y lo diferente, escuchar a quien tengo enfrente y convertir ideas en piezas que llaman la atención.';
+  // Cada elemento = una línea del título. Pueden ser texto o JSX: en la
+  // primera, la "ss" va en un <span> propio para darle el degradado animado.
+  const HERO_TITLE = [
+    <>Meli<span className="mt-hero__ss">ss</span>a</>,
+    'Tinoco López',
+  ];
+  const HERO_TEXT = ''; // párrafo bajo el título; si está vacío ('') no se muestra
   const CV_URL = 'assets/cv-melissa-tinoco.pdf';
   const PHOTO_URL = 'assets/img-mel.jpg';
 
@@ -58,10 +62,12 @@
             </span>
           </h1>
 
-          {/* Párrafo corto en gris claro. */}
-          <p className="mt-hero__text mt-hero__in" style={{ '--delay': '420ms' }}>
-            {HERO_TEXT}
-          </p>
+          {/* Párrafo corto en gris claro. "&&" solo lo dibuja si HERO_TEXT tiene texto. */}
+          {HERO_TEXT && (
+            <p className="mt-hero__text mt-hero__in" style={{ '--delay': '420ms' }}>
+              {HERO_TEXT}
+            </p>
+          )}
 
           {/* Botones de acción. */}
           <div className="mt-hero__actions mt-hero__in" style={{ '--delay': '560ms' }}>
