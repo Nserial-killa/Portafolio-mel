@@ -22,7 +22,7 @@
               ¿Creamos algo<br /><span className="mt-gradient-text">junt@s?</span>
             </h2>
             <p style={{ fontSize: 'var(--fs-lg)', color: 'var(--text-body)', lineHeight: 'var(--lh-relaxed)', maxWidth: 520 }}>
-              Cuéntame tu idea y la convertimos en algo que destaque. Estoy a un correo de distancia.
+              Cuéntame tu idea y la convertimos en realidad.
             </p>
             <div style={{ marginTop: 'var(--space-3)' }}>
               <Button variant="primary" size="lg" href={`mailto:${EMAIL}`} iconLeft={<Icons.Mail />}>
@@ -32,7 +32,6 @@
             <a href={`mailto:${EMAIL}`} style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--fs-sm)', color: 'var(--text-muted)' }}>{EMAIL}</a>
 
             <div style={{ display: 'flex', gap: 12, marginTop: 'var(--space-4)' }}>
-              <IconButton label="Instagram" href="#"><Icons.Instagram /></IconButton>
               <IconButton label="LinkedIn" href="#"><Icons.Linkedin /></IconButton>
             </div>
           </div>
@@ -67,7 +66,6 @@
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 14 }}>
               <span style={{ fontSize: 'var(--fs-xs)', fontWeight: 700, letterSpacing: 'var(--ls-wide)', textTransform: 'uppercase', color: 'var(--text-faint)' }}>Sígueme</span>
               <div style={{ display: 'flex', gap: 12 }}>
-                <IconButton label="Instagram" href="#"><Icons.Instagram /></IconButton>
                 <IconButton label="LinkedIn" href="#"><Icons.Linkedin /></IconButton>
               </div>
               <a href={`mailto:${EMAIL}`} style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--fs-sm)', color: 'var(--text-muted)', textDecoration: 'none' }}>{EMAIL}</a>

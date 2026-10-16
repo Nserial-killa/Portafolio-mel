@@ -8,7 +8,7 @@
   // CONTENIDO EDITABLE
   // Cambia estos textos aquí sin tocar el resto del componente.
   // ---------------------------------------------------------------------------
-  const HERO_TITLE = ['Diseño para', 'destacar']; // cada elemento = una línea del título
+  const HERO_TITLE = ['Melissa', 'Tinoco López']; // cada elemento = una línea del título
   const HERO_TEXT =
     'Soy una diseñadora muy creativa. Me apasiona lo nuevo y lo diferente, escuchar a quien tengo enfrente y convertir ideas en piezas que llaman la atención.';
   const CV_URL = 'assets/cv-melissa-tinoco.pdf';

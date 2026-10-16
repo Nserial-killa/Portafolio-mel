@@ -21,7 +21,6 @@
     Mail: I([{ tag: 'rect', attr: { x: 2, y: 4, width: 20, height: 16, rx: 2 } }, 'm22 7-10 5L2 7']),
     Sparkles: I(['M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9L12 3', 'M19 15l.7 1.8L21.5 17.5 19.7 18.2 19 20l-.7-1.8L16.5 17.5 18.3 16.8 19 15']),
     Eye: I(['M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z', { tag: 'circle', attr: { cx: 12, cy: 12, r: 3 } }]),
-    Instagram: I([{ tag: 'rect', attr: { x: 2, y: 2, width: 20, height: 20, rx: 5 } }, { tag: 'circle', attr: { cx: 12, cy: 12, r: 4 } }, { tag: 'circle', attr: { cx: 17.5, cy: 6.5, r: 0.6 } }]),
     Linkedin: I(['M16 8a6 6 0 0 1 6 6v6h-4v-6a2 2 0 0 0-4 0v6h-4v-12h4v2', { tag: 'rect', attr: { x: 2, y: 9, width: 4, height: 11 } }, { tag: 'circle', attr: { cx: 4, cy: 4, r: 2 } }]),
     Close: I(['M18 6 6 18', 'm6 6 12 12']),
     Play: I(['M8 5.5v13l10.5-6.5z']),
