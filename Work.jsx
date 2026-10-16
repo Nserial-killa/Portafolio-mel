@@ -1,102 +1,139 @@
-/* Work — Proyectos grid + Certificaciones with a lightbox. */
+/* Work — Proyectos rotating carousel. */
 (function () {
-  const { useState } = React;
+  const { useState, useEffect, useRef } = React;
   const NS = window.MelissaTinocoPortfolioDesignSystem_c81f0c;
-  const { SectionHeading, ProjectCard, CertCard } = NS;
+  const { SectionHeading, ProjectCard } = NS;
   const Icons = window.PortfolioIcons;
-  const { projects, certs } = window.PortfolioData;
+  const { projects } = window.PortfolioData;
 
-  function Lightbox({ src, alt, onClose }) {
-    if (!src) return null;
+  const ROTATE_MS = 4500; // time each project stays in front
+
+  /* Coverflow carousel: the active card sits in front, its neighbours tilt
+     back on each side, and the ring advances on its own. Auto-rotation
+     pauses on hover/focus, while the tab is hidden, and with reduced motion. */
+  function ProjectCarousel({ items }) {
+    const n = items.length;
+    const [active, setActive] = useState(0);
+    const [paused, setPaused] = useState(false);
+    const touchX = useRef(null);
+
+    const go = (i) => setActive(((i % n) + n) % n);
+
+    useEffect(() => {
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (paused || reduce || n < 2) return;
+      const id = setInterval(() => {
+        if (!document.hidden) setActive((a) => (a + 1) % n);
+      }, ROTATE_MS);
+      return () => clearInterval(id);
+    }, [paused, n]);
+
+    // Signed distance from the active card, wrapped so the ring has no ends
+    // (with 3 items: 0 = front, 1 = right, -1 = left).
+    const offsetOf = (i) => {
+      let d = (i - active + n) % n;
+      if (d > n / 2) d -= n;
+      return d;
+    };
+
+    const onTouchEnd = (e) => {
+      if (touchX.current == null) return;
+      const dx = e.changedTouches[0].clientX - touchX.current;
+      if (Math.abs(dx) > 40) go(active + (dx < 0 ? 1 : -1));
+      touchX.current = null;
+    };
+
     return (
       <div
-        onClick={onClose}
-        style={{
-          position: 'fixed', inset: 0, zIndex: 100, display: 'flex', alignItems: 'center', justifyContent: 'center',
-          background: 'rgba(0,0,0,0.86)', backdropFilter: 'var(--blur-md)', WebkitBackdropFilter: 'var(--blur-md)',
-          padding: 'var(--space-6)', animation: 'mt-fade-in var(--dur-base) var(--ease-out)',
+        className="mt-carousel"
+        role="region"
+        aria-roledescription="carrusel"
+        aria-label="Proyectos"
+        onMouseEnter={() => setPaused(true)}
+        onMouseLeave={() => setPaused(false)}
+        onFocus={() => setPaused(true)}
+        onBlur={() => setPaused(false)}
+        onKeyDown={(e) => {
+          if (e.key === 'ArrowRight') go(active + 1);
+          if (e.key === 'ArrowLeft') go(active - 1);
         }}
+        onTouchStart={(e) => { touchX.current = e.touches[0].clientX; setPaused(true); }}
+        onTouchEnd={(e) => { onTouchEnd(e); setPaused(false); }}
       >
-        <button
-          onClick={onClose}
-          aria-label="Cerrar"
-          style={{
-            position: 'absolute', top: 24, right: 24, width: 48, height: 48, borderRadius: '50%',
-            border: '1px solid var(--border-strong)', background: 'var(--surface-card)', color: '#fff',
-            display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer',
-          }}
-        >
-          <Icons.Close />
-        </button>
-        <img
-          src={src} alt={alt}
-          onClick={(e) => e.stopPropagation()}
-          style={{ maxWidth: 'min(900px, 92vw)', maxHeight: '86vh', borderRadius: 'var(--radius-md)', boxShadow: 'var(--glow-pink-lg)' }}
-        />
+        <div className="mt-carousel__stage">
+          {items.map((p, i) => {
+            const d = offsetOf(i);
+            const isActive = d === 0;
+            return (
+              <div
+                key={p.title}
+                className="mt-carousel__slide"
+                data-offset={Math.max(-2, Math.min(2, d))}
+                aria-hidden={!isActive}
+                // A side card is a "bring me to front" button, not a link out.
+                onClickCapture={(e) => {
+                  if (!isActive) { e.preventDefault(); e.stopPropagation(); go(i); }
+                }}
+              >
+                <ProjectCard
+                  video={p.video} image={p.image} title={p.title} description={p.description} tags={p.tags}
+                  href={p.href} target="_blank" rel="noopener noreferrer" tabIndex={isActive ? 0 : -1}
+                />
+              </div>
+            );
+          })}
+        </div>
+
+        <div className="mt-carousel__controls">
+          <button className="mt-carousel__arrow" onClick={() => go(active - 1)} aria-label="Proyecto anterior">
+            <Icons.Arrow style={{ transform: 'rotate(180deg)' }} />
+          </button>
+          <div className="mt-carousel__dots">
+            {items.map((p, i) => (
+              <button
+                key={p.title}
+                className="mt-carousel__dot"
+                aria-label={`Ver ${p.title}`}
+                aria-current={i === active}
+                onClick={() => go(i)}
+              />
+            ))}
+          </div>
+          <button className="mt-carousel__arrow" onClick={() => go(active + 1)} aria-label="Proyecto siguiente">
+            <Icons.Arrow />
+          </button>
+        </div>
       </div>
     );
   }
 
   function Work() {
-    const [lightbox, setLightbox] = useState(null);
+    // React doesn't write the `muted` attribute, which Safari/iOS require for autoplay.
+    useEffect(() => {
+      document.querySelectorAll('#proyectos video').forEach((v) => {
+        v.muted = true;
+        v.setAttribute('muted', '');
+        v.play().catch(() => {});
+      });
+    }, []);
 
     return (
-      <>
-        {/* Proyectos */}
-        <section id="proyectos" style={{ padding: 'var(--section-pad-y) var(--section-pad-x)' }}>
-          <div style={{ maxWidth: 'var(--content-max)', margin: '0 auto' }}>
-            <div className="mt-reveal">
-              <SectionHeading
-                eyebrow="Proyectos"
-                eyebrowColor="var(--text-muted)"
-                align="center"
-                title="Trabajo seleccionado"
-                subtitle="Una muestra de lo que más disfruto crear — identidad, diseño editorial, social media y un poco de magia."
-              />
-            </div>
-            <div
-              className="mt-reveal mt-projects-grid"
-              style={{ animationDelay: '100ms', display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 'var(--space-5)', marginTop: 'var(--space-7)' }}
-            >
-              {projects.map((p) => (
-                <ProjectCard key={p.title} image={p.image} title={p.title} description={p.description} tags={p.tags} href="#" />
-              ))}
-            </div>
+      <section id="proyectos" style={{ padding: 'var(--section-pad-y) var(--section-pad-x)', overflowX: 'clip' }}>
+        <div style={{ maxWidth: 'var(--content-max)', margin: '0 auto' }}>
+          <div className="mt-reveal">
+            <SectionHeading
+              eyebrow="Portafolio"
+              eyebrowColor="var(--text-muted)"
+              align="center"
+              title="Proyectos"
+              subtitle="Sitios web diseñados de principio a fin: interfaz, contenido visual y experiencia de usuario."
+            />
           </div>
-        </section>
-
-        {/* Certificaciones */}
-        <section id="certificaciones" style={{ padding: 'var(--section-pad-y) var(--section-pad-x)', background: 'var(--bg-section)' }}>
-          <div style={{ maxWidth: 'var(--content-max)', margin: '0 auto' }}>
-            <div className="mt-reveal">
-              <SectionHeading
-                eyebrow="Certificaciones"
-                eyebrowColor="var(--text-muted)"
-                align="center"
-                title="Aprendizaje constante"
-                subtitle="Siempre estoy aprendiendo algo nuevo. Estos son algunos de los logros que respaldan mi trabajo."
-              />
-            </div>
-            <div
-              className="mt-reveal mt-certs-grid"
-              style={{ animationDelay: '100ms', display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: 'var(--space-5)', marginTop: 'var(--space-7)', maxWidth: 720, marginInline: 'auto' }}
-            >
-              {certs.map((c) => (
-                <CertCard
-                  key={c.title}
-                  image={c.image}
-                  title={c.title}
-                  issuer={c.issuer}
-                  date={c.date}
-                  onView={() => setLightbox({ src: c.image, alt: c.title })}
-                />
-              ))}
-            </div>
+          <div className="mt-reveal" style={{ animationDelay: '100ms', marginTop: 'var(--space-8)' }}>
+            <ProjectCarousel items={projects} />
           </div>
-        </section>
-
-        <Lightbox src={lightbox?.src} alt={lightbox?.alt} onClose={() => setLightbox(null)} />
-      </>
+        </div>
+      </section>
     );
   }
 

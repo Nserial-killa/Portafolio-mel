@@ -4,7 +4,7 @@
   const { Button, IconButton } = NS;
   const Icons = window.PortfolioIcons;
 
-  const EMAIL = 'melissa.tinoco@email.com';
+  const EMAIL = 'melissa0302l@gmail.com';
 
   function Contact() {
     return (
@@ -19,7 +19,7 @@
           >
             <span style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--fs-sm)', fontWeight: 'var(--fw-bold)', letterSpacing: 'var(--ls-eyebrow)', textTransform: 'uppercase', color: 'var(--text-muted)' }}>Contacto</span>
             <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--fs-d1)', letterSpacing: 'var(--ls-tight)', lineHeight: 'var(--lh-tight)', color: 'var(--text-primary)' }}>
-              ¿Creamos algo<br /><span className="mt-gradient-text">juntas?</span>
+              ¿Creamos algo<br /><span className="mt-gradient-text">junt@s?</span>
             </h2>
             <p style={{ fontSize: 'var(--fs-lg)', color: 'var(--text-body)', lineHeight: 'var(--lh-relaxed)', maxWidth: 520 }}>
               Cuéntame tu idea y la convertimos en algo que destaque. Estoy a un correo de distancia.
@@ -33,7 +33,6 @@
 
             <div style={{ display: 'flex', gap: 12, marginTop: 'var(--space-4)' }}>
               <IconButton label="Instagram" href="#"><Icons.Instagram /></IconButton>
-              <IconButton label="Behance" href="#"><Icons.Behance /></IconButton>
               <IconButton label="LinkedIn" href="#"><Icons.Linkedin /></IconButton>
             </div>
           </div>
@@ -58,7 +57,7 @@
 
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12 }}>
               <span style={{ fontSize: 'var(--fs-xs)', fontWeight: 700, letterSpacing: 'var(--ls-wide)', textTransform: 'uppercase', color: 'var(--text-faint)' }}>Navegación</span>
-              {[['Sobre mí', '#sobre-mi'], ['Proyectos', '#proyectos'], ['Certificaciones', '#certificaciones'], ['Contacto', '#contacto']].map(([l, h]) => (
+              {window.PortfolioData.navLinks.map(([l, h]) => (
                 <a key={h} href={h} style={{ fontSize: 'var(--fs-sm)', color: 'var(--text-body)', textDecoration: 'none' }}
                   onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--accent)')}
                   onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--text-body)')}>{l}</a>
@@ -69,7 +68,6 @@
               <span style={{ fontSize: 'var(--fs-xs)', fontWeight: 700, letterSpacing: 'var(--ls-wide)', textTransform: 'uppercase', color: 'var(--text-faint)' }}>Sígueme</span>
               <div style={{ display: 'flex', gap: 12 }}>
                 <IconButton label="Instagram" href="#"><Icons.Instagram /></IconButton>
-                <IconButton label="Behance" href="#"><Icons.Behance /></IconButton>
                 <IconButton label="LinkedIn" href="#"><Icons.Linkedin /></IconButton>
               </div>
               <a href={`mailto:${EMAIL}`} style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--fs-sm)', color: 'var(--text-muted)', textDecoration: 'none' }}>{EMAIL}</a>

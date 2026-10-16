@@ -1,6 +1,9 @@
-/* Sticky top navigation with glass blur. */
+/* Sticky top navigation with glass blur and a mobile dropdown menu.
+   On desktop it stays hidden over the hero (which has its own menu) until the page scrolls. */
 (function () {
   const { useState, useEffect } = React;
+
+  const Icons = window.PortfolioIcons;
 
   function Nav() {
     const [scrolled, setScrolled] = useState(false);
@@ -12,15 +15,12 @@
       return () => window.removeEventListener('scroll', onScroll);
     }, []);
 
-    const links = [
-      ['Sobre mí', '#sobre-mi'],
-      ['Proyectos', '#proyectos'],
-      ['Certificaciones', '#certificaciones'],
-      ['Contacto', '#contacto'],
-    ];
+    const links = window.PortfolioData.navLinks;
 
     return (
       <header
+        className="mt-nav"
+        data-at-top={!scrolled && !open}
         style={{
           position: 'fixed',
           top: 0,
@@ -31,10 +31,10 @@
           alignItems: 'center',
           justifyContent: 'space-between',
           padding: '16px clamp(20px, 6vw, 96px)',
-          background: scrolled ? 'rgba(8,8,10,0.72)' : 'transparent',
-          backdropFilter: scrolled ? 'var(--blur-md)' : 'none',
-          WebkitBackdropFilter: scrolled ? 'var(--blur-md)' : 'none',
-          borderBottom: scrolled ? '1px solid var(--border)' : '1px solid transparent',
+          background: scrolled || open ? 'var(--glass-bg)' : 'transparent',
+          backdropFilter: scrolled || open ? 'var(--blur-md)' : 'none',
+          WebkitBackdropFilter: scrolled || open ? 'var(--blur-md)' : 'none',
+          borderBottom: scrolled || open ? '1px solid var(--border)' : '1px solid transparent',
           transition: 'all var(--dur-base) var(--ease-out)',
         }}
       >
@@ -64,6 +64,41 @@
             </a>
           ))}
         </nav>
+
+        <button
+          className="mt-menu-btn"
+          onClick={() => setOpen(!open)}
+          aria-label={open ? 'Cerrar menú' : 'Abrir menú'}
+          aria-expanded={open}
+          style={{
+            width: 44, height: 44, alignItems: 'center', justifyContent: 'center', borderRadius: 'var(--radius-pill)',
+            border: '1px solid var(--border-strong)', background: 'var(--surface-card)', color: 'var(--text-primary)', cursor: 'pointer',
+          }}
+        >
+          {open ? <Icons.Close /> : <Icons.Menu />}
+        </button>
+
+        {open && (
+          <nav
+            className="mt-mobile-nav"
+            style={{
+              position: 'absolute', top: '100%', left: 0, right: 0, display: 'flex', flexDirection: 'column',
+              padding: '8px clamp(20px, 6vw, 96px) 20px', background: 'var(--surface-card)',
+              borderBottom: '1px solid var(--border)', boxShadow: 'var(--shadow-md)',
+            }}
+          >
+            {links.map(([label, href]) => (
+              <a
+                key={href}
+                href={href}
+                onClick={() => setOpen(false)}
+                style={{ padding: '14px 4px', fontSize: 'var(--fs-base)', fontWeight: 600, color: 'var(--text-primary)', borderBottom: '1px solid var(--border)' }}
+              >
+                {label}
+              </a>
+            ))}
+          </nav>
+        )}
       </header>
     );
   }

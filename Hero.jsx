@@ -1,66 +1,90 @@
-/* Hero — the name in pink on black, with ambient glow and reveal animation. */
+/* Hero — sección de inicio a pantalla completa: foto a la izquierda, texto a la derecha.
+   Los estilos viven en hero.css (clases .mt-hero__*). */
 (function () {
-  const NS = window.MelissaTinocoPortfolioDesignSystem_c81f0c;
-  const { Button, Badge } = NS;
   const Icons = window.PortfolioIcons;
+  const { navLinks } = window.PortfolioData;
+
+  // ---------------------------------------------------------------------------
+  // CONTENIDO EDITABLE
+  // Cambia estos textos aquí sin tocar el resto del componente.
+  // ---------------------------------------------------------------------------
+  const HERO_TITLE = ['Diseño para', 'destacar']; // cada elemento = una línea del título
+  const HERO_TEXT =
+    'Soy una diseñadora muy creativa. Me apasiona lo nuevo y lo diferente, escuchar a quien tengo enfrente y convertir ideas en piezas que llaman la atención.';
+  const CV_URL = 'assets/cv-melissa-tinoco.pdf';
+  const PHOTO_URL = 'assets/img-mel.jpg';
+
+  // Enlaces del menú del hero: "Inicio" + los mismos que usa la barra global.
+  const links = [['Inicio', '#top'], ...navLinks];
 
   function Hero() {
     return (
-      <section
-        id="top"
-        style={{
-          position: 'relative',
-          minHeight: '100vh',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          padding: 'var(--section-pad-y) var(--section-pad-x)',
-          overflow: 'hidden',
-        }}
-      >
-        {/* Subtle violet ambience at the bottom only (no pink glow up top) */}
-        <div
-          style={{
-            position: 'absolute', bottom: '-10%', left: '-4%', width: 420, height: 420, borderRadius: '50%',
-            background: 'radial-gradient(circle, rgba(114,9,183,0.16) 0%, rgba(114,9,183,0) 70%)',
-            filter: 'blur(20px)', pointerEvents: 'none',
-          }}
-        />
-
-        <div style={{ position: 'relative', maxWidth: 'var(--content-max)', margin: '0 auto', width: '100%', textAlign: 'center' }}>
-          <h1
-            className="mt-reveal"
-            style={{
-              animationDelay: '0ms',
-              fontFamily: 'var(--font-display)',
-              fontWeight: 800,
-              fontSize: 'var(--fs-hero)',
-              lineHeight: 'var(--lh-tight)',
-              letterSpacing: 'var(--ls-tight)',
-              margin: 0,
-              color: 'var(--text-primary)',
-            }}
-          >
-            <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12, fontSize: '0.4em', fontWeight: 600, color: 'var(--text-muted)', letterSpacing: '0.04em', marginBottom: 14 }}>
-              <Icons.Sparkles width={20} height={20} style={{ color: 'var(--accent)' }} /> Diseñadora
-            </span>
-            Meli<span className="mt-green-text">ss</span>a{' '}
-            <span className="mt-gradient-text" style={{ backgroundSize: '200% auto', animation: 'mt-shimmer 6s linear infinite' }}>
-              Tinoco López
-            </span>
-          </h1>
+      // <section id="top">: el id permite que el logo y "Inicio" vuelvan aquí.
+      <section id="top" className="mt-hero">
+        {/* ===== COLUMNA IZQUIERDA: foto con esquinas redondeadas ===== */}
+        <div className="mt-hero__media">
+          {/* alt describe la imagen para lectores de pantalla.
+              fetchpriority="high" le dice al navegador que la cargue primero
+              porque es lo primero que se ve. */}
+          <img className="mt-hero__photo" src={PHOTO_URL} alt="Retrato de Melissa Tinoco" fetchpriority="high" />
+          {/* Nombre discreto en la esquina superior izquierda (sobre la foto). */}
+          <a className="mt-hero__name" href="#top">Melissa Tinoco</a>
         </div>
 
-        {/* Scroll hint */}
-        <div
-          style={{
-            position: 'absolute', bottom: 28, left: '50%', transform: 'translateX(-50%)',
-            display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8,
-            color: 'var(--text-faint)', fontSize: 'var(--fs-xs)', letterSpacing: 'var(--ls-wide)', textTransform: 'uppercase',
-          }}
-        >
-          Scroll
-          <span style={{ width: 1, height: 34, background: 'linear-gradient(var(--accent), transparent)' }} />
+        {/* ===== COLUMNA DERECHA: panel oscuro con el contenido ===== */}
+        <div className="mt-hero__panel">
+          {/* Menú propio del hero (arriba a la derecha). En móvil se oculta
+              por CSS y se usa el menú global con botón ☰. */}
+          <nav className="mt-hero__nav" aria-label="Secciones">
+            {links.map(([label, href]) => (
+              // aria-current marca "Inicio" como la sección actual (accesibilidad + estilo).
+              <a key={href} href={href} aria-current={href === '#top' ? 'page' : undefined}>
+                {label}
+              </a>
+            ))}
+          </nav>
+
+          {/* Título en dos líneas. Cada línea se anima con un retraso distinto
+              (--delay) para lograr la entrada "en cascada". */}
+          <h1 className="mt-hero__title">
+            <span className="mt-hero__title-line mt-hero__in" style={{ '--delay': '150ms' }}>
+              {/* El texto va en su propio span para que no se parta en dos líneas. */}
+              <span className="mt-hero__title-text">{HERO_TITLE[0]}</span>
+              {/* Línea fina decorativa; aria-hidden la oculta a lectores de pantalla. */}
+              <span className="mt-hero__title-rule" aria-hidden="true" />
+            </span>
+            <span className="mt-hero__title-line mt-hero__in" style={{ '--delay': '280ms' }}>
+              {HERO_TITLE[1]}
+            </span>
+          </h1>
+
+          {/* Párrafo corto en gris claro. */}
+          <p className="mt-hero__text mt-hero__in" style={{ '--delay': '420ms' }}>
+            {HERO_TEXT}
+          </p>
+
+          {/* Botones de acción. */}
+          <div className="mt-hero__actions mt-hero__in" style={{ '--delay': '560ms' }}>
+            {/* "download" hace que el navegador descargue el PDF en vez de abrirlo. */}
+            <a className="mt-hero__btn--primary" href={CV_URL} download>
+              <Icons.Download width={18} height={18} />
+              Descargar CV
+            </a>
+            {/* href="#proyectos" + html { scroll-behavior: smooth } (en index.html)
+                hace un scroll suave hasta la sección de proyectos. */}
+            <a className="mt-hero__btn--ghost" href="#proyectos">
+              <span className="mt-hero__btn-circle" aria-hidden="true">
+                <Icons.Play width={18} height={18} />
+              </span>
+              Ver trabajos
+            </a>
+          </div>
+
+          {/* Indicador decorativo "01 / 05" (total = número de secciones del menú).
+              padStart(2, '0') convierte 5 en "05". */}
+          <span className="mt-hero__counter" aria-hidden="true">
+            <strong>01</strong> / {String(links.length).padStart(2, '0')}
+          </span>
         </div>
       </section>
     );

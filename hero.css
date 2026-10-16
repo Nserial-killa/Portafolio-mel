@@ -1,0 +1,366 @@
+/* ===========================================================================
+   HERO — Sección de inicio (pantalla completa, dos columnas)
+   ---------------------------------------------------------------------------
+   Este archivo contiene SOLO los estilos del hero (Hero.jsx). Se separa del
+   resto porque necesita cosas que no se pueden escribir como estilos inline
+   en React: media queries (responsive), @keyframes (animaciones) y :hover.
+
+   Convención de nombres (BEM, "Bloque__Elemento--Modificador"):
+     .mt-hero            → el bloque (la sección completa)
+     .mt-hero__media     → un elemento dentro del bloque (la columna de la foto)
+     .mt-hero__btn--primary → una variante de un elemento (el botón principal)
+   Así se sabe de un vistazo a qué parte pertenece cada clase.
+   ========================================================================= */
+
+/* ---------------------------------------------------------------------------
+   1. VARIABLES LOCALES DEL HERO
+   Definimos aquí los colores propios del hero para cambiarlos en un solo
+   lugar. Los colores de acento (rosa) vienen de tokens/colors.css.
+   --------------------------------------------------------------------------- */
+.mt-hero {
+  --hero-bg: #000000;                    /* negro puro, igual que el resto del sitio */
+  --hero-text: #ffffff;                  /* títulos y textos principales       */
+  --hero-muted: #a3aaa7;                 /* párrafo en gris claro              */
+  --hero-faint: rgba(255, 255, 255, 0.45); /* enlaces del menú e indicador     */
+  --hero-line: rgba(255, 255, 255, 0.35);  /* línea fina junto al título       */
+  --hero-gap: 16px;                      /* margen alrededor de la foto        */
+  --hero-radius: 28px;                   /* esquinas redondeadas de la foto    */
+}
+
+/* ---------------------------------------------------------------------------
+   2. ESTRUCTURA GENERAL (escritorio)
+   CSS Grid divide la pantalla en dos columnas: 42% foto / 58% texto.
+   "fr" reparte el espacio sobrante en proporción (42 partes y 58 partes).
+   --------------------------------------------------------------------------- */
+.mt-hero {
+  position: relative;          /* referencia para elementos "absolute" hijos  */
+  display: grid;
+  grid-template-columns: 42fr 58fr;
+  height: 100vh;               /* ocupa exactamente la altura de la ventana   */
+  min-height: 620px;           /* evita que se aplaste en pantallas muy bajas */
+  padding: var(--hero-gap);    /* deja un marco alrededor de la foto          */
+  background: var(--hero-bg);
+  overflow: hidden;            /* nada de las animaciones se sale del hero    */
+}
+
+/* ---------------------------------------------------------------------------
+   3. COLUMNA IZQUIERDA — LA FOTO
+   El contenedor recorta la imagen con esquinas redondeadas (overflow hidden)
+   y la imagen se estira para cubrirlo entero con object-fit: cover.
+   --------------------------------------------------------------------------- */
+.mt-hero__media {
+  position: relative;
+  border-radius: var(--hero-radius);
+  overflow: hidden;            /* recorta la imagen a las esquinas redondeadas */
+  background: #0c0f0e;         /* color de fondo mientras carga la imagen      */
+  animation: mt-hero-photo-in 1.1s var(--ease-out) both; /* ver sección 8     */
+}
+
+.mt-hero__photo {
+  position: absolute;
+  inset: 0;                    /* top/right/bottom/left = 0 → ocupa todo      */
+  width: 100%;
+  height: 100%;
+  object-fit: cover;           /* llena el contenedor sin deformar la foto    */
+  /* object-position decide QUÉ parte de la foto se ve al recortar.
+     52% horizontal centra el rostro; 22% vertical sube el encuadre para que
+     se vean la cara y el cabello en vez del saco. */
+  object-position: 52% 22%;
+}
+
+/* Degradado oscuro arriba de la foto para que el nombre se lea encima. */
+.mt-hero__media::after {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;           /* pegado arriba, ancho completo               */
+  height: 140px;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0) 100%);
+  pointer-events: none;        /* no bloquea clics                            */
+}
+
+/* Nombre "Melissa Tinoco": discreto, letra pequeña, esquina superior izq. */
+.mt-hero__name {
+  position: absolute;
+  top: 28px;
+  left: 30px;
+  z-index: 1;                  /* por encima del degradado ::after            */
+  font-family: var(--font-display);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--hero-text);
+  text-decoration: none;
+}
+.mt-hero__name:hover { color: var(--accent); }  /* acento rosa solo en hover */
+
+/* ---------------------------------------------------------------------------
+   4. COLUMNA DERECHA — PANEL DE TEXTO
+   Flexbox en columna + justify-content: center → el contenido queda
+   centrado verticalmente. El padding lateral usa clamp() para crecer con la
+   pantalla: clamp(MÍNIMO, PREFERIDO, MÁXIMO).
+   --------------------------------------------------------------------------- */
+.mt-hero__panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 clamp(32px, 7vw, 128px);
+}
+
+/* Barra de navegación del hero: arriba a la derecha del panel. */
+.mt-hero__nav {
+  position: absolute;
+  top: 18px;
+  right: clamp(16px, 3vw, 48px);
+  display: flex;
+  gap: clamp(16px, 2.4vw, 36px);
+  animation: mt-hero-fade-in 0.8s var(--ease-out) 0.5s both;
+}
+
+.mt-hero__nav a {
+  position: relative;
+  padding: 6px 0;
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  color: var(--hero-faint);
+  text-decoration: none;
+  transition: color var(--dur-fast) var(--ease-out);
+}
+
+/* Subrayado rosa que "crece" desde la izquierda al pasar el mouse.
+   Empieza con scaleX(0) (invisible) y pasa a scaleX(1) en hover. */
+.mt-hero__nav a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: var(--grad-pink);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--dur-base) var(--ease-out);
+}
+.mt-hero__nav a:hover { color: var(--hero-text); }
+.mt-hero__nav a:hover::after { transform: scaleX(1); }
+
+/* Enlace de la sección actual ("Inicio"): blanco para marcar dónde estamos. */
+.mt-hero__nav a[aria-current='page'] { color: var(--hero-text); }
+
+/* ---------------------------------------------------------------------------
+   5. TÍTULO, PÁRRAFO
+   --------------------------------------------------------------------------- */
+.mt-hero__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2.75rem, 6vw, 5.75rem);  /* crece con el ancho de pantalla */
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  color: var(--hero-text);
+}
+
+/* Cada línea del título es un bloque propio para poder animarlas por separado
+   y para poner la línea fina al lado de la primera. */
+.mt-hero__title-line {
+  display: flex;
+  align-items: center;
+  gap: clamp(16px, 2vw, 28px);
+}
+
+/* El texto de cada línea nunca se parte: si falta espacio, cede la línea fina. */
+.mt-hero__title-text {
+  white-space: nowrap;
+  flex: none;                  /* no se encoge dentro del flex               */
+}
+
+/* Línea horizontal fina a la derecha de la primera línea del título.
+   flex: 0 1 160px → ancho base 160px, puede encogerse si no hay espacio
+   (hasta min-width: 32px). */
+.mt-hero__title-rule {
+  flex: 0 1 160px;
+  min-width: 32px;
+  height: 1px;
+  background: var(--hero-line);
+  transform-origin: left;
+  /* Se "dibuja" de izquierda a derecha después de que entra el título. */
+  animation: mt-hero-rule-in 0.9s var(--ease-out) 0.7s both;
+}
+
+.mt-hero__text {
+  max-width: 430px;
+  margin: clamp(20px, 3vh, 32px) 0 0;
+  font-size: 0.95rem;
+  line-height: var(--lh-relaxed);
+  color: var(--hero-muted);
+}
+
+/* ---------------------------------------------------------------------------
+   6. BOTONES
+   --------------------------------------------------------------------------- */
+.mt-hero__actions {
+  display: flex;
+  flex-wrap: wrap;             /* si no caben en una fila, bajan a la otra    */
+  align-items: center;
+  gap: 18px 32px;              /* espacio vertical / horizontal entre botones */
+  margin-top: clamp(28px, 5vh, 48px);
+}
+
+/* Botón principal: fondo blanco, texto oscuro, forma de píldora. */
+.mt-hero__btn--primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 30px;
+  border-radius: var(--radius-pill);
+  background: var(--hero-text);
+  color: var(--hero-bg);
+  font-weight: 700;
+  font-size: var(--fs-sm);
+  text-decoration: none;
+  /* Cambios suaves (no instantáneos) al pasar el mouse. */
+  transition: transform var(--dur-base) var(--ease-spring), box-shadow var(--dur-base) var(--ease-out),
+    background var(--dur-base) var(--ease-out), color var(--dur-base) var(--ease-out);
+}
+/* Hover: aquí aparece el acento rosa del portafolio. */
+.mt-hero__btn--primary:hover {
+  background: var(--grad-pink);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: var(--glow-pink-md);
+}
+
+/* Botón secundario: círculo con icono + texto, sin fondo. */
+.mt-hero__btn--ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  color: var(--hero-text);
+  font-weight: 600;
+  font-size: var(--fs-sm);
+  text-decoration: none;
+}
+
+.mt-hero__btn-circle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 1px solid var(--hero-line);
+  transition: background var(--dur-base) var(--ease-out), border-color var(--dur-base) var(--ease-out),
+    transform var(--dur-base) var(--ease-spring);
+}
+/* Hover en el botón completo → el círculo se rellena de rosa y crece un poco. */
+.mt-hero__btn--ghost:hover { color: var(--hero-text); }
+.mt-hero__btn--ghost:hover .mt-hero__btn-circle {
+  background: var(--grad-pink);
+  border-color: transparent;
+  transform: scale(1.08);
+}
+
+/* ---------------------------------------------------------------------------
+   7. INDICADOR DE PÁGINA (decorativo) — abajo a la derecha
+   --------------------------------------------------------------------------- */
+.mt-hero__counter {
+  position: absolute;
+  right: clamp(16px, 3vw, 48px);
+  bottom: 22px;
+  font-size: var(--fs-xs);
+  letter-spacing: 0.12em;
+  color: var(--hero-faint);
+  animation: mt-hero-fade-in 0.8s var(--ease-out) 0.9s both;
+}
+.mt-hero__counter strong { color: var(--hero-text); font-weight: 700; }
+
+/* ---------------------------------------------------------------------------
+   8. ANIMACIONES DE ENTRADA
+   @keyframes define los pasos; "animation" en cada elemento los aplica.
+   "both" mantiene el estado inicial ANTES de empezar (útil con retraso) y el
+   final DESPUÉS de terminar.
+   --------------------------------------------------------------------------- */
+
+/* Foto: aparece con un ligero "zoom out" (de 1.04 a tamaño normal). */
+@keyframes mt-hero-photo-in {
+  from { opacity: 0; transform: scale(1.04); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* Textos: suben 24px mientras aparecen. */
+@keyframes mt-hero-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Solo opacidad (para menú e indicador). */
+@keyframes mt-hero-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Línea del título: se dibuja escalando su ancho de 0 a 1. */
+@keyframes mt-hero-rule-in {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
+/* Clase reutilizable para los textos. El retraso de cada elemento llega
+   desde Hero.jsx con la variable --delay (efecto "en cascada"). */
+.mt-hero__in {
+  animation: mt-hero-up 0.9s var(--ease-out) var(--delay, 0ms) both;
+}
+
+/* ---------------------------------------------------------------------------
+   9. RESPONSIVE — tablet y móvil (≤ 880px)
+   La grilla pasa a UNA columna: foto arriba (45% de la altura de pantalla)
+   y texto abajo, centrado.
+   --------------------------------------------------------------------------- */
+@media (max-width: 880px) {
+  .mt-hero {
+    grid-template-columns: 1fr;          /* una sola columna                  */
+    grid-template-rows: 45vh auto;       /* fila 1 = foto, fila 2 = texto     */
+    height: auto;                        /* la altura la define el contenido  */
+    min-height: 100vh;
+    --hero-gap: 12px;
+    --hero-radius: 22px;
+  }
+
+  /* Con la foto más ancha que alta, subimos un poco el encuadre para
+     que la cara quede en el centro del recorte. */
+  .mt-hero__photo { object-position: 52% 18%; }
+
+  /* En móvil el menú global (con botón ☰) ya muestra el nombre y los
+     enlaces, así que ocultamos los del hero para no duplicarlos. */
+  .mt-hero__name,
+  .mt-hero__nav { display: none; }
+
+  .mt-hero__panel {
+    align-items: center;                 /* centra horizontalmente            */
+    text-align: center;
+    padding: 44px 8px 72px;
+  }
+
+  .mt-hero__title-line { justify-content: center; }
+  .mt-hero__title-rule { display: none; } /* la línea descentra el título     */
+  .mt-hero__text { margin-inline: auto; }
+  .mt-hero__actions { justify-content: center; }
+}
+
+/* Móvil pequeño (≤ 480px): botones apilados, uno debajo del otro. */
+@media (max-width: 480px) {
+  .mt-hero__actions { flex-direction: column; }
+}
+
+/* ---------------------------------------------------------------------------
+   10. ACCESIBILIDAD — movimiento reducido
+   Si la persona activó "reducir movimiento" en su sistema, desactivamos las
+   animaciones de entrada y todo aparece directamente.
+   --------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .mt-hero__media,
+  .mt-hero__in,
+  .mt-hero__nav,
+  .mt-hero__counter,
+  .mt-hero__title-rule { animation: none; }
+}

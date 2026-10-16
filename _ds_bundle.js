@@ -495,22 +495,29 @@ function ProjectCard({
   }, rest), /*#__PURE__*/React.createElement("div", {
     style: {
       position: 'relative',
-      aspectRatio: '16 / 11',
+      aspectRatio: '16 / 10',
       overflow: 'hidden',
       background: 'var(--ink-800)'
     }
   }, video ? /*#__PURE__*/React.createElement("video", {
-    src: video,
+    // `video` may be one URL or a list of fallback sources (e.g. mp4 + webm)
+    src: Array.isArray(video) ? undefined : video,
+    poster: image,
     muted: true,
     loop: true,
     playsInline: true,
     autoPlay: true,
+    preload: 'auto',
     style: {
       width: '100%',
       height: '100%',
       objectFit: 'cover'
     }
-  }) : /*#__PURE__*/React.createElement("img", {
+  }, Array.isArray(video) && video.map(src => /*#__PURE__*/React.createElement("source", {
+    key: src,
+    src: src,
+    type: /\.webm(\?|$)/.test(src) ? 'video/webm' : 'video/mp4'
+  }))) : /*#__PURE__*/React.createElement("img", {
     src: image,
     alt: title,
     style: {
@@ -532,13 +539,13 @@ function ProjectCard({
     style: {
       display: 'flex',
       flexDirection: 'column',
-      gap: 'var(--space-3)',
-      padding: 'var(--space-5)'
+      gap: 'var(--space-4)',
+      padding: 'clamp(24px, 3vw, 36px)'
     }
   }, /*#__PURE__*/React.createElement("h3", {
     style: {
       fontFamily: 'var(--font-display)',
-      fontSize: 'var(--fs-h2)',
+      fontSize: 'clamp(1.5rem, 2.2vw, 2rem)',
       fontWeight: 'var(--fw-bold)',
       color: 'var(--text-primary)',
       margin: 0,
@@ -546,8 +553,8 @@ function ProjectCard({
     }
   }, title), description && /*#__PURE__*/React.createElement("p", {
     style: {
-      fontSize: 'var(--fs-sm)',
-      color: 'var(--text-muted)',
+      fontSize: 'clamp(1rem, 1.2vw, 1.0625rem)',
+      color: 'var(--text-body)',
       lineHeight: 'var(--lh-relaxed)',
       margin: 0
     }
@@ -555,12 +562,16 @@ function ProjectCard({
     style: {
       display: 'flex',
       flexWrap: 'wrap',
-      gap: '8px',
-      marginTop: 'var(--space-2)'
+      gap: '10px',
+      marginTop: 'var(--space-3)'
     }
   }, tags.map(t => /*#__PURE__*/React.createElement(__ds_scope.Badge, {
     key: t,
-    variant: "soft"
+    variant: "soft",
+    style: {
+      fontSize: 'var(--fs-sm)',
+      padding: '8px 16px'
+    }
   }, t)))));
 }
 Object.assign(__ds_scope, { ProjectCard });
@@ -668,7 +679,7 @@ try { (() => {
       eyebrow: "Sobre m\xED",
       eyebrowColor: "var(--text-muted)",
       align: "center",
-      title: "Dise\xF1o para destacar",
+      title: "Dise\xF1o para destacar y conectar",
       subtitle: "Soy una dise\xF1adora muy creativa. Me apasiona lo nuevo y lo diferente, escuchar a quien tengo enfrente y convertir ideas en piezas que llaman la atenci\xF3n."
     }), /*#__PURE__*/React.createElement("div", {
       style: {

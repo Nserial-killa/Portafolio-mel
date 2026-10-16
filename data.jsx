@@ -1,4 +1,4 @@
-/* Portfolio content + helpers. Replace placeholder media with Melissa's real work. */
+/* Portfolio content + helpers. */
 (function () {
   // Gradient placeholder generator — swap these for real project images/videos.
   const ph = (a, b, c) =>
@@ -17,48 +17,39 @@
 
   const projects = [
     {
-      title: 'Identidad — Café Aurora',
-      description: 'Branding completo para una cafetería de especialidad: logotipo, paleta cálida y diseño de empaques.',
-      tags: ['Branding', 'Packaging', 'Canva'],
-      image: ph('#f72585', '#b5179e', '#7209b7'),
+      title: 'Pollo Frito Geme — Soda',
+      description: 'Web responsive para pedidos de una soda, hecha con Canva IA: carrito, checkout desplegable, validación de formularios, categorías y confirmación del pedido por WhatsApp.',
+      tags: ['Diseño web', 'UI / UX', 'Canva IA'],
+      video: ['assets/soda-pollo-geme.mp4?v=2', 'assets/soda-pollo-geme.webm?v=2'],
+      image: 'assets/soda-pollo-geme.jpg',
+      href: 'https://soda-pollo-frito-geme.vercel.app/',
     },
     {
-      title: 'Campaña — Flores de Marzo',
-      description: 'Serie de piezas para redes sociales con una dirección de arte vibrante y femenina.',
-      tags: ['Social Media', 'Dirección de arte'],
-      image: ph('#f94c9c', '#f72585', '#d11371'),
+      title: 'Noble Studio',
+      description: 'Interfaz del sitio en blanco y dorado con títulos serif, logo del ave dorada en Canva, estructura de secciones con carrusel de proyectos y piezas para redes sociales.',
+      tags: ['UI / UX', 'Branding', 'Social Media'],
+      video: ['assets/noble-studio.mp4?v=2', 'assets/noble-studio.webm?v=2'],
+      image: 'assets/noble-studio.jpg',
+      href: 'https://noble-studio-web-site.vercel.app/',
     },
     {
-      title: 'Editorial — Revista Nova',
-      description: 'Diseño editorial y maquetación de una revista digital independiente de 32 páginas.',
-      tags: ['Editorial', 'Layout'],
-      image: ph('#7209b7', '#4361ee', '#4cc9f0'),
-    },
-    {
-      title: 'UI Concept — App Bloom',
-      description: 'Concepto visual de una app de bienestar: sistema de color, iconografía y pantallas clave.',
-      tags: ['UI / UX', 'Figma'],
-      image: ph('#4cc9f0', '#7209b7', '#f72585'),
-    },
-    {
-      title: 'Posters — Serie Caos',
-      description: 'Colección experimental de carteles tipográficos explorando ritmo y contraste.',
-      tags: ['Tipografía', 'Print'],
-      image: ph('#b5179e', '#f72585', '#fb7bb4'),
-    },
-    {
-      title: 'Logo Set — Estudio Lúa',
-      description: 'Sistema de marca y variaciones de logotipo para un estudio de fotografía.',
-      tags: ['Logo', 'Branding'],
-      image: ph('#d11371', '#7209b7', '#4361ee'),
+      title: 'Las Chemas del Mapa',
+      description: 'Interfaz del sitio y product cards para el catálogo, imágenes únicas del carrusel creadas con Canva IA y estructura de navegación, productos, contacto y footer.',
+      tags: ['Diseño web', 'UI / UX', 'Canva IA'],
+      video: ['assets/chemas-del-mapa.mp4?v=2', 'assets/chemas-del-mapa.webm?v=2'],
+      image: 'assets/chemas-del-mapa.jpg',
+      href: 'https://www.laschemasdelmap.com/',
     },
   ];
 
-  const certs = [
-    { image: '../../assets/cert-canva-100.jpeg', title: '100 diseños en Canva', issuer: 'Canva', date: '2026' },
+  const skills = ['Branding', 'Diseño web', 'Social Media', 'UI / UX', 'Tipografía', 'Canva', 'CapCut', 'Adobe Illustrator'];
+
+  // Section links shared by the top nav and the hero menu.
+  const navLinks = [
+    ['Sobre mí', '#sobre-mi'],
+    ['Proyectos', '#proyectos'],
+    ['Contacto', '#contacto'],
   ];
 
-  const skills = ['Branding', 'Diseño editorial', 'Social Media', 'UI / UX', 'Tipografía', 'Canva', 'Figma', 'Dirección de arte'];
-
-  window.PortfolioData = { projects, certs, skills, ph };
+  window.PortfolioData = { projects, skills, navLinks, ph };
 })();
